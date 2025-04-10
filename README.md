@@ -76,8 +76,8 @@ graph LR
 
     subgraph Monte Carlo Analysis
         C --> I(3. python scripts/run_monte_carlo_analysis.py);
-        E --> I; # Optional dependency
-        F --> I; # Optional dependency
+        E --> I;
+        F --> I;
         I --> J[data/monte_carlo/analysis_results.parquet];
         I --> K[plots/beta_histograms.png];
         I --> L[plots/drawdown_analysis.png];
