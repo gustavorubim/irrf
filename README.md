@@ -57,6 +57,37 @@ irrf/
 
 Run the scripts from the project's root directory (`irrf/`).
 
+## Workflow Diagram
+
+This diagram shows the typical workflow and dependencies between the scripts:
+
+```mermaid
+graph LR
+    A[Start] --> B(1. python scripts/download_data.py);
+    B --> C[data/raw_yields.parquet];
+
+    subgraph Optional Single Run
+        C --> D(2. python scripts/run_single_simulation.py);
+        D --> E[data/ns_parameters.parquet];
+        D --> F[data/var_parameters.pickle];
+        D --> G[data/single_simulation_curves.parquet];
+        D --> H[plots/simulation_surface.png];
+    end
+
+    subgraph Monte Carlo Analysis
+        C --> I(3. python scripts/run_monte_carlo_analysis.py);
+        E --> I; # Optional dependency
+        F --> I; # Optional dependency
+        I --> J[data/monte_carlo/analysis_results.parquet];
+        I --> K[plots/beta_histograms.png];
+        I --> L[plots/drawdown_analysis.png];
+    end
+
+    style Optional Single Run fill:#f8f8f8,stroke:#ddd
+    style Monte Carlo Analysis fill:#e8f8e8,stroke:#ada
+```
+
+
 1.  **Download Historical Data:**
     *   Fetches the latest available full year of daily Treasury yield curve data from the US Treasury website.
     *   Processes and saves the data to `data/raw_yields.parquet`.
